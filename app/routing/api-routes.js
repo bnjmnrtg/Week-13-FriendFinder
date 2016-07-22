@@ -1,7 +1,18 @@
-app.get('/api/friends', function(req,res) {
-    //friends.js JSON file
-});
+// ================ Dependencies ==================
+var friendsObject = require('../data/friends.js');
+var path = require('path');
 
-app.post('/api/friends', function(req,res) {
-    
-});
+// =================== Exports ======================
+module.exports = function(app){
+	
+	app.get('/api/friends', function(req,res) {
+	    res.json(friendsObject);
+		res.json(true);
+	});
+
+	app.post('/api/friends', function(req,res) {
+	    res.json(friendsObject);
+		res.json(true);
+	});
+
+}
