@@ -7,12 +7,10 @@ module.exports = function(app){
 	
 	app.get('/api/friends', function(req,res) {
 	    res.json(friendsObject);
-		res.json(true);
 	});
 
 	app.post('/api/friends', function(req,res) {
-	    res.json(friendsObject);
-		res.json(true);
+	    friendsObject.push(req.body);
 	});
 
 }
