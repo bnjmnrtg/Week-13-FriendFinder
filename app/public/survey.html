@@ -169,45 +169,46 @@
                     url: currentUrl + '/api/friends',
                     method: 'Get'
                 }).done(function(res) {
-                        var bestFriend;
-                        var currentBest = 100;
-                        var differenceArray = [];
+                    var bestFriend;
+                    var currentBest = 100;
+                    var differenceArray = [];
 
-                        for (i = 0; i < res.length - 1; i++) {
+                    for (i = 0; i < res.length - 1; i++) {
 
-                            for (j = 0; j < 5; j++) {
-                                currentDifference = user.scores[j] - res[i].scores[j];
-                                differenceArray.push(Math.abs(currentDifference))
+                        for (j = 0; j < 5; j++) {
+                            currentDifference = user.scores[j] - res[i].scores[j];
+                            differenceArray.push(Math.abs(currentDifference))
 
-                                var difference = differenceArray.reduce(add, 0);
+                            var difference = differenceArray.reduce(add, 0);
 
-                                if (difference < currentBest) {
-                                    // console.log(res[i].name, 'if ran');
-                                    bestFriend = res[i];
-                                    currentBest = difference;
-                                    differenceArray = [];
-                                } else {
-                                    // console.log(res[i].name, 'else ran');
-                                    differenceArray = [];
-                                }
+                            if (difference < currentBest) {
+                                // console.log(res[i].name, 'if ran');
+                                bestFriend = res[i];
+                                currentBest = difference;
+                                differenceArray = [];
+                            } else {
+                                // console.log(res[i].name, 'else ran');
+                                differenceArray = [];
                             }
-
-                            console.log(bestFriend);
-
-                            var friendName = bestFriend.name;
-                            var friendPic = bestFriend.photo;
-                            $('#myModal').modal('show');
-                            $('.modal-body').html('<h4 id="broName">' + friendName + '</h4><img id="broPic" style="width:300px;height:"300px" src="' + friendPic + '">');
-
-                            $('#survey')[0].reset()
                         }
+
+                        console.log(bestFriend);
+
+                        var friendName = bestFriend.name;
+                        var friendPic = bestFriend.photo;
+                        $('#myModal').modal('show');
+                        $('.modal-body').html('<h4 id="broName">' + friendName + '</h4><img id="broPic" style="width:300px;height:"300px" src="' + friendPic + '">');
+
+                        $('#survey')[0].reset();
+                    };
 
                     return false;
                 });
+            }
 
             function add(a, b) {
                 return a + b;
-            }
+            };
     </script>
 </body>
 
