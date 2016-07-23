@@ -13,10 +13,12 @@
         margin-left: 5%;
         margin-bottom: 10px;
     }
-    #instructions{
+    #title, #instructions{
         text-align:center;
     }
-
+    #broPic{
+        border: solid black;
+    }
     body{
         background-color: black;
     }
@@ -26,7 +28,7 @@
 <body>
     <div class="container">
         <div class="jumbotron">
-            <h1><strong>Bro Sports Survey Questions</strong></h1>
+            <h1 id="title" ><strong>Bro Sports Survey Questions</strong></h1>
             <hr>
             <p id="instructions">Agree or Disagree. Please Answer All the Questions</p>
         </div>
@@ -34,7 +36,7 @@
             
     <div class="container">
         <div class="jumbotron">
-            <form role="form">
+            <form role="form" id="survey" >
                 <h2>About you</h2>
                 <div class="form-group">
                     <label for="usr">Name:</label>
@@ -123,9 +125,6 @@
     </div>
 
 
-   <!--  <button id="submit" type="button" class="btn btn-primary btn-lg">Submit</button>
-     -->
-
     <!-- Trigger the modal with a button -->
 <button id="submit" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Im Done</button>
 
@@ -140,8 +139,8 @@
         <h3 class="modal-title">Meet Your Sports Bro</h3>
       </div>
       <div class="modal-body">
-        <h4 id="broName">Tim Duncan</h4>
-        <img id="broPic" src="http://l.yimg.com/bt/api/res/1.2/zqGhkn4ElXh3cgR2Hl7hIg--/YXBwaWQ9eW5ld3NfbGVnbztmaT1maWxsO2g9MjMwO3E9NzU7dz0zNDU-/https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/20141107/3173.png" style=" border: solid black;">
+        <!-- <h4 id="broName">Tim Duncan</h4>
+        <img id="broPic" src="http://l.yimg.com/bt/api/res/1.2/zqGhkn4ElXh3cgR2Hl7hIg/YXBwaWQ9eW5ld3NfbGVnbztmaT1maWxsO2g9MjMwO3E9NzU7dz0zNDU-/https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/20141107/3173.png"> -->
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -163,20 +162,50 @@
             }
     
         // variable new bro takes in variables from the name input and the pic url and the answers array.
-            var UserResult = {
+            var user = {
                 name: $('#name').val().trim(),
                 photo: $("#picture").val().trim(),
                 scores: answers
             };
             
-            
-            console.log(UserResult);
+            var currentUrl = window.location.origin;
+            console.log(user);
 
+            $.post(currentUrl + '/api/friends', user, function(data){});
 
-            
-        })
+            $.ajax({url: currentUrl + '/api/friends', method: 'Get'}).done(function(res){
+                var bestFriend;
+                var currentBest = 100;
+                var differneceArray = [];
 
+                for (var i = 0; i < res.length - 1; i++) {
+                    var currentDifference = user.score[i] - res[i].scores[i];
+                    differneceArray.push(Math.abs(currentDifference));
+                }
 
+                var difference = differneceArray.reduced(add,0);
+
+                if(difference<currentBest){
+                    bestFriend = res[i];
+                    currentBest = difference;
+                    differneceArray = [];
+                }
+                else{
+                    differneceArray=[];
+                }
+            })
+
+            var friendName = bestFriend.name;
+            var friendPic = bestFriend.photo;
+
+            $('.modal-body').text('<h4 id="broName">' + friendName +'</h4><img id="broPic" style="width:300px;height:"300px" src="' + friendPic +'">');
+
+            $('#survey')[0].reset()
+    });
+
+    function add(a, b){
+    return a + b;
+    }
 
 
 
