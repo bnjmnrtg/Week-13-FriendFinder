@@ -13,13 +13,17 @@
         margin-left: 5%;
         margin-bottom: 10px;
     }
-    #title, #instructions{
-        text-align:center;
+    
+    #title,
+    #instructions {
+        text-align: center;
     }
-    #broPic{
+    
+    #broPic {
         border: solid black;
     }
-    body{
+    
+    body {
         background-color: black;
     }
     </style>
@@ -28,15 +32,14 @@
 <body>
     <div class="container">
         <div class="jumbotron">
-            <h1 id="title" ><strong>Bro Sports Survey Questions</strong></h1>
+            <h1 id="title"><strong>Bro Sports Survey Questions</strong></h1>
             <hr>
             <p id="instructions">Agree or Disagree. Please Answer All the Questions</p>
         </div>
-    </div>       
-            
+    </div>
     <div class="container">
         <div class="jumbotron">
-            <form role="form" id="survey" >
+            <form role="form" id="survey">
                 <h2>About you</h2>
                 <div class="form-group">
                     <label for="usr">Name:</label>
@@ -48,7 +51,6 @@
                 </div>
         </div>
     </div>
-    
     <div class="container">
         <div class="jumbotron">
             <h3>Question 1: Basketball is the Best Sport to watch and play.</h3>
@@ -63,7 +65,6 @@
             </select>
         </div>
     </div>
-    
     <div class="container">
         <div class="jumbotron">
             <h3>Question 2: Soccer is only exciting during the World Cup.</h3>
@@ -78,7 +79,6 @@
             </select>
         </div>
     </div>
-    
     <div class="container">
         <div class="jumbotron">
             <h3>Question 3: I know more NBA Athletes than NFL Athletes.</h3>
@@ -93,7 +93,6 @@
             </select>
         </div>
     </div>
-    
     <div class="container">
         <div class="jumbotron">
             <h3>Question 4: The Hack-A-Shaq Rule should be not be allowed in the NBA.</h3>
@@ -108,7 +107,6 @@
             </select>
         </div>
     </div>
-
     <div class="container">
         <div class="jumbotron">
             <h3>Question 5: Dallas Cowboy's Dez Bryant caught the ball. </h3>
@@ -123,102 +121,93 @@
             </select>
         </div>
     </div>
-
-
     <!-- Trigger the modal with a button -->
-<button id="submit" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Im Done</button>
-
-<!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h3 class="modal-title">Meet Your Sports Bro</h3>
-      </div>
-      <div class="modal-body">
-        <h4 id="broName">Tim Duncan</h4>
-        <img id="broPic" src="http://l.yimg.com/bt/api/res/1.2/zqGhkn4ElXh3cgR2Hl7hIg--/YXBwaWQ9eW5ld3NfbGVnbztmaT1maWxsO2g9MjMwO3E9NzU7dz0zNDU-/https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/20141107/3173.png">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
+    <button id="submit" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Im Done</button>
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">Meet Your Sports Bro</h3>
+                </div>
+                <div class="modal-body">
+                    <h4 id="broName">Tim Duncan</h4>
+                    <img id="broPic" src="http://l.yimg.com/bt/api/res/1.2/zqGhkn4ElXh3cgR2Hl7hIg--/YXBwaWQ9eW5ld3NfbGVnbztmaT1maWxsO2g9MjMwO3E9NzU7dz0zNDU-/https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/20141107/3173.png">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
-
-  </div>
-</div>
     <!-- ========================= Javascript ================================ -->
     <script type="text/javascript">
-        
-        $('#submit').on("click", function(){
-        // empty array where answers will go
-            var answers = [];
-            
-        // looping through the array of var answers and pushing the value of the questions in.
-            for (var i = 1; i < 6; i++) {
-                answers.push(parseInt($('#q' + i).val().substring(0,1)));
+    $('#submit').on("click", function() {
+                // empty array where answers will go
+                var answers = [];
+
+                // looping through the array of var answers and pushing the value of the questions in.
+                for (var i = 1; i < 6; i++) {
+                    answers.push(parseInt($('#q' + i).val().substring(0, 1)));
+                }
+
+                // variable new bro takes in variables from the name input and the pic url and the answers array.
+                var user = {
+                    name: $('#name').val().trim(),
+                    photo: $("#picture").val().trim(),
+                    scores: answers
+                };
+
+                var currentUrl = window.location.origin;
+                // console.log(user);
+
+                $.post(currentUrl + '/api/friends', user, function(data) {});
+
+                $.ajax({
+                    url: currentUrl + '/api/friends',
+                    method: 'Get'
+                }).done(function(res) {
+                        var bestFriend;
+                        var currentBest = 100;
+                        var differenceArray = [];
+
+                        for (i = 0; i < res.length - 1; i++) {
+
+                            for (j = 0; j < 5; j++) {
+                                currentDifference = user.scores[j] - res[i].scores[j];
+                                differenceArray.push(Math.abs(currentDifference))
+
+                                var difference = differenceArray.reduce(add, 0);
+
+                                if (difference < currentBest) {
+                                    // console.log(res[i].name, 'if ran');
+                                    bestFriend = res[i];
+                                    currentBest = difference;
+                                    differenceArray = [];
+                                } else {
+                                    // console.log(res[i].name, 'else ran');
+                                    differenceArray = [];
+                                }
+                            }
+
+                            console.log(bestFriend);
+
+                            var friendName = bestFriend.name;
+                            var friendPic = bestFriend.photo;
+                            $('#myModal').modal('show');
+                            $('.modal-body').html('<h4 id="broName">' + friendName + '</h4><img id="broPic" style="width:300px;height:"300px" src="' + friendPic + '">');
+
+                            $('#survey')[0].reset()
+                        })
+
+                    return false;
+                });
+
+            function add(a, b) {
+                return a + b;
             }
-    
-        // variable new bro takes in variables from the name input and the pic url and the answers array.
-            var user = {
-                name: $('#name').val().trim(),
-                photo: $("#picture").val().trim(),
-                scores: answers
-            };
-            
-            var currentUrl = window.location.origin;
-            // console.log(user);
-
-            $.post(currentUrl + '/api/friends', user, function(data){});
-
-            $.ajax({url: currentUrl + '/api/friends', method: 'Get'}).done(function(res){
-                var bestFriend;
-                var currentBest = 100;
-                var differenceArray = [];
-
-                for (i = 0; i < res.length - 1; i++) {
-
-                    for (j = 0; j < 5; j++) {
-                        currentDifference = user.scores[j] - res[i].scores[j];
-                        differenceArray.push(Math.abs(currentDifference))
-
-                    var difference = differenceArray.reduce(add,0);
-                    
-                    if(difference < currentBest){
-                        // console.log(res[i].name, 'if ran');
-                        bestFriend = res[i];
-                        currentBest = difference;
-                        differenceArray = [];
-                    }
-                    else{
-                        // console.log(res[i].name, 'else ran');
-                        differenceArray=[];
-                    }
-                } 
-            
-            console.log(bestFriend);
-
-            var friendName = bestFriend.name;
-            var friendPic = bestFriend.photo;
-            $('#myModal').modal('show');
-            $('.modal-body').html('<h4 id="broName">' + friendName +'</h4><img id="broPic" style="width:300px;height:"300px" src="' + friendPic +'">');
-
-            $('#survey')[0].reset()
-        })
-
-            return false;
-    });
-
-    function add(a, b){
-    return a + b;
-    }
-
-
-
-
-
     </script>
 </body>
 
