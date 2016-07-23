@@ -139,8 +139,8 @@
         <h3 class="modal-title">Meet Your Sports Bro</h3>
       </div>
       <div class="modal-body">
-        <!-- <h4 id="broName">Tim Duncan</h4>
-        <img id="broPic" src="http://l.yimg.com/bt/api/res/1.2/zqGhkn4ElXh3cgR2Hl7hIg/YXBwaWQ9eW5ld3NfbGVnbztmaT1maWxsO2g9MjMwO3E9NzU7dz0zNDU-/https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/20141107/3173.png"> -->
+        <h4 id="broName">Tim Duncan</h4>
+        <img id="broPic" src="http://l.yimg.com/bt/api/res/1.2/zqGhkn4ElXh3cgR2Hl7hIg--/YXBwaWQ9eW5ld3NfbGVnbztmaT1maWxsO2g9MjMwO3E9NzU7dz0zNDU-/https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/20141107/3173.png">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -158,7 +158,7 @@
             
         // looping through the array of var answers and pushing the value of the questions in.
             for (var i = 1; i < 6; i++) {
-                answers.push(parseInt($('#q' + i).val()));
+                answers.push(parseInt($('#q' + i).val().substring(0,1)));
             }
     
         // variable new bro takes in variables from the name input and the pic url and the answers array.
@@ -169,38 +169,46 @@
             };
             
             var currentUrl = window.location.origin;
-            console.log(user);
+            // console.log(user);
 
             $.post(currentUrl + '/api/friends', user, function(data){});
 
             $.ajax({url: currentUrl + '/api/friends', method: 'Get'}).done(function(res){
                 var bestFriend;
                 var currentBest = 100;
-                var differneceArray = [];
+                var differenceArray = [];
 
-                for (var i = 0; i < res.length - 1; i++) {
-                    var currentDifference = user.score[i] - res[i].scores[i];
-                    differneceArray.push(Math.abs(currentDifference));
-                }
+                for (i = 0; i < res.length - 1; i++) {
 
-                var difference = differneceArray.reduced(add,0);
+                    for (j = 0; j < 5; j++) {
+                        currentDifference = user.scores[j] - res[i].scores[j];
+                        differenceArray.push(Math.abs(currentDifference))
 
-                if(difference<currentBest){
-                    bestFriend = res[i];
-                    currentBest = difference;
-                    differneceArray = [];
-                }
-                else{
-                    differneceArray=[];
-                }
-            })
+                    var difference = differenceArray.reduce(add,0);
+                    
+                    if(difference < currentBest){
+                        // console.log(res[i].name, 'if ran');
+                        bestFriend = res[i];
+                        currentBest = difference;
+                        differenceArray = [];
+                    }
+                    else{
+                        // console.log(res[i].name, 'else ran');
+                        differenceArray=[];
+                    }
+                } 
+            
+            console.log(bestFriend);
 
             var friendName = bestFriend.name;
             var friendPic = bestFriend.photo;
-
-            $('.modal-body').text('<h4 id="broName">' + friendName +'</h4><img id="broPic" style="width:300px;height:"300px" src="' + friendPic +'">');
+            $('#myModal').modal('show');
+            $('.modal-body').html('<h4 id="broName">' + friendName +'</h4><img id="broPic" style="width:300px;height:"300px" src="' + friendPic +'">');
 
             $('#survey')[0].reset()
+        })
+
+            return false;
     });
 
     function add(a, b){

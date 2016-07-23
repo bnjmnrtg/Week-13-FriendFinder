@@ -9,7 +9,7 @@ var friends =[{
 },{
   "name":"Alex Morgan",
   "photo":"http://pthumb.lisimg.com/image/8840414/280full.jpg",
-  "scores":[2, 5, 1, 3, 5]
+  "scores":[1, 1, 1, 1, 1]
 }];
 
 
