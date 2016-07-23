@@ -10,6 +10,10 @@ var friends =[{
   "name":"Alex Morgan",
   "photo":"http://pthumb.lisimg.com/image/8840414/280full.jpg",
   "scores":[1, 1, 1, 1, 1]
+},{
+  "name":"Tim Duncan",
+  "photo":"http://l.yimg.com/bt/api/res/1.2/zqGhkn4ElXh3cgR2Hl7hIg--/YXBwaWQ9eW5ld3NfbGVnbztmaT1maWxsO2g9MjMwO3E9NzU7dz0zNDU-/https://s.yimg.com/xe/i/us/sp/v/nba_cutout/players_l/20141107/3173.png",
+  "scores":[5, 1, 3, 1, 2]	
 }];
 
 
